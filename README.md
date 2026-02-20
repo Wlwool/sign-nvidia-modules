@@ -21,11 +21,11 @@
 ### Шаг 1: Создание директории и генерация ключей
 
 ```bash
-# Создаём директорию для ключей
+# Создание директории для ключей
 sudo mkdir -p /root/secure-mok
 cd /root/secure-mok
 
-# Генерируем пару ключей RSA (действительны 100 лет)
+# Генерируем пару ключей RSA
 sudo openssl req -new -x509 -newkey rsa:2048 -keyout MOK.priv -out MOK.der \
   -nodes -days 36500 -subj "/CN=MyNvidiaKey/"
 
@@ -77,13 +77,13 @@ echo "Подписание модулей NVIDIA..."
 
 # Проверка есть ли ключи
 if [[ ! -f "$MOK_PRIV" ]] || [[ ! -f "$MOK_DER" ]]; then
-    echo "❌ Ошибка: MOK-ключи не найдены в $MOK_PRIV и $MOK_DER"
+    echo "[X] Ошибка: MOK-ключи не найдены в $MOK_PRIV и $MOK_DER"
     exit 1
 fi
 
 # Проверка наличия инструмента для подписи
 if [[ ! -f "$SIGN_TOOL" ]]; then
-    echo "❌ Ошибка: sign-file не найден. Установите linux-headers-$(uname -r)"
+    echo "[X] Ошибка: sign-file не найден. Установите linux-headers-$(uname -r)"
     exit 1
 fi
 
@@ -98,7 +98,7 @@ for mod in "${MODULES[@]}"; do
         if [[ $? -eq 0 ]]; then
             echo "$mod подписан успешно"
         else
-            echo "⚠️  Не удалось подписать $mod"
+            echo "Не удалось подписать $mod"
         fi
     else
         echo "Модуль $mod не найден, пропускаю"
