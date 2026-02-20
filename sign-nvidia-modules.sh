@@ -1,5 +1,4 @@
 #!/bin/bash
-#!/bin/bash
 # Автоматическая подпись модулей NVIDIA при включённом Secure Boot
 # Используется при обновлении ядра или драйвера
 
@@ -12,13 +11,13 @@ echo "Подписание модулей NVIDIA..."
 
 # Проверка есть ли ключи
 if [[ ! -f "$MOK_PRIV" ]] || [[ ! -f "$MOK_DER" ]]; then
-    echo "❌ Ошибка: MOK-ключи не найдены в $MOK_PRIV и $MOK_DER"
+    echo "[X] Ошибка: MOK-ключи не найдены в $MOK_PRIV и $MOK_DER"
     exit 1
 fi
 
 # Проверка наличия инструмента для подписи
 if [[ ! -f "$SIGN_TOOL" ]]; then
-    echo "❌ Ошибка: sign-file не найден. Установите linux-headers-$(uname -r)"
+    echo "[X] Ошибка: sign-file не найден. Установите linux-headers-$(uname -r)"
     exit 1
 fi
 
@@ -33,7 +32,7 @@ for mod in "${MODULES[@]}"; do
         if [[ $? -eq 0 ]]; then
             echo "$mod подписан успешно"
         else
-            echo "⚠️  Не удалось подписать $mod"
+            echo "Не удалось подписать $mod"
         fi
     else
         echo "Модуль $mod не найден, пропускаю"
